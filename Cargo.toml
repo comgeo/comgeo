@@ -1,0 +1,7 @@
+[package]
+name = "minkowski-steiner"
+version = "0.1.0"
+authors = ["Jacob Grevald <jacob@jacobgrevald.dk>"]
+
+[dependencies]
+disjoint-set = "0.0.2"
