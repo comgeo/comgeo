@@ -94,7 +94,7 @@ pub trait Real : Neg<Output=Self> + Add<Output=Self>
                 + Sub<Output=Self> + Mul<Output=Self>
                 + Div<Output=Self> + Rem<Output=Self>
                 + AddAssign + SubAssign + MulAssign + DivAssign
-                + From<f64>
+                + From<f64> + Into<f64>
                 + Copy + PartialEq + PartialOrd
                 + fmt::Display + fmt::Debug {
 
@@ -227,9 +227,13 @@ pub trait GeoMedian<P: Point, M: MinkowskiSpace<P>>: fmt::Display {
 }
 
 pub trait GeoMedianStep<P: Point, M: MinkowskiSpace<P>>: fmt::Display {
+    type D: GeoMedianStepData;
+
     fn step(&mut self, &mut P, &mut Node<P>, usize, &M);
     fn init(&mut self, &mut Node<P>, &M);
+    fn data(&self) -> &Self::D;
     fn print(&self, &mut fmt::Formatter, u32) -> fmt::Result;
+    fn print_data<W: Write>(&self, &mut W) -> io::Result<()>;
 }
 
 pub trait RmtData: fmt::Display + Clone  {
@@ -244,6 +248,9 @@ pub trait SmtData: fmt::Display + Clone {
 
 pub trait GeoMedianData: fmt::Display + Clone {
     fn time(&self) -> &Duration;
+}
+
+pub trait GeoMedianStepData: fmt::Display + Clone {
 }
 
 pub trait EnumeratorData: fmt::Display + Clone {

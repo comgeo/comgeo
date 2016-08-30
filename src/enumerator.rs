@@ -472,16 +472,20 @@ impl<P: Point, S: TerminalSorter> Enumerator<P> for GPEnumeration<P, S> {
     fn next<M>(&mut self, geo: &M) -> bool
         where M: MinkowskiSpace<P> {
 
+        let start = Instant::now();
+
         if self.state == GPState::Start {
             if self.t.len() == 0 {
                 self.state = GPState::Done;
             } else {
                 self.state = GPState::Running;
             }
+            self.data.time = Instant::now() - start;
             return true;
         }
 
         if self.state == GPState::Done || !self.backtrack() {
+            self.data.time = Instant::now() - start;
             return false;
         }
 
@@ -497,10 +501,12 @@ impl<P: Point, S: TerminalSorter> Enumerator<P> for GPEnumeration<P, S> {
             if self.prune_check(ti, si, geo) {
                 self.pop();
                 if !self.backtrack() {
+                    self.data.time = Instant::now() - start;
                     return false;
                 }
             } else {
                 self.data.nodes += 1;
+                self.data.time = Instant::now() - start;
                 return true;
             }
         }

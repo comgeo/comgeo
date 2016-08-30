@@ -12,12 +12,17 @@ use algorithms::geomedians::*;
 pub struct GeoMedianIterData {
     nodes: usize,
     time: Duration,
-    iterations: u64
+    iterations: u64,
+    selftime: Duration
 }
 
 impl GeoMedianIterData {
     pub fn iterations(&self) -> u64 {
         self.iterations
+    }
+
+    pub fn selftime(&self) -> &Duration {
+        &self.selftime
     }
 }
 
@@ -66,6 +71,7 @@ impl<P, M, G> GeoMedianIter<P, M, G>
             data: GeoMedianIterData {
                 nodes: 0,
                 time: Duration::new(0, 0),
+                selftime: Duration::new(0, 0),
                 iterations: 0
             },
             _m: PhantomData
@@ -116,6 +122,7 @@ impl<P, M, G> RMT<P, M> for GeoMedianIter<P, M, G>
             let len = stree.len(geo);
             if last_len - len < self.tree_len_cutoff {
                 self.data.time += Instant::now() - start;
+                self.data.selftime = self.data.time - *self.median.data().time();
                 return len;
             }
 

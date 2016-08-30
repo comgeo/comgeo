@@ -22,33 +22,95 @@ fn centroid<P: Point>(y: &Node<P>) -> P {
 
 
 
-#[derive(Debug)]
-pub struct ChiaFranco<P: Point, F> {
-    e: F,
-    _m: PhantomData<P>
+#[derive(Debug, Clone)]
+pub struct GeoMedianStepPrecisionErrorData {
+    precisionerrors: u64
 }
-impl<P: Point, F: Fn(usize) -> P::R> ChiaFranco<P, F> {
-    pub fn new(e: F) -> Self {
-        ChiaFranco {
-            e: e,
-            _m: PhantomData
+
+impl GeoMedianStepPrecisionErrorData {
+    pub fn new() -> Self {
+        GeoMedianStepPrecisionErrorData {
+            precisionerrors: 0
         }
     }
 
-    pub fn get_epsilon(&self, s: usize) -> P::R {
-        (self.e)(s)
-    }
-
-    pub fn get_err_ub(&self, tlen: usize, p: P::R, s: usize) -> P::R {
-        P::R::from(tlen as f64) * P::R::from(2.0).pow(P::R::one()/p) * self.get_epsilon(s).sqrt()
+    pub fn precision_errors(&self) -> u64 {
+        self.precisionerrors
     }
 }
 
-impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFranco<P, F> {
+impl GeoMedianStepData for GeoMedianStepPrecisionErrorData { }
+
+impl fmt::Display for GeoMedianStepPrecisionErrorData {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        try!(writeln!(f, "Data for the geometric median step function:"));
+        writeln!(f, "\tTotal number of precision errors encountered: {}", self.precisionerrors)
+    }
+}
+
+
+#[derive(Debug, Clone)]
+pub struct GeoMedianStepFixedPointData {
+    fixedpoints: u64
+}
+
+impl GeoMedianStepFixedPointData {
+    pub fn new() -> Self {
+        GeoMedianStepFixedPointData {
+            fixedpoints: 0
+        }
+    }
+
+    pub fn fixed_points(&self) -> u64 {
+        self.fixedpoints
+    }
+}
+
+impl GeoMedianStepData for GeoMedianStepFixedPointData { }
+
+impl fmt::Display for GeoMedianStepFixedPointData {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        try!(writeln!(f, "Data for the geometric median step function:"));
+        writeln!(f, "\tTotal number of fixed points encountered: {}", self.fixedpoints)
+    }
+}
+
+
+
+
+#[derive(Debug)]
+pub struct ChiaFrancoApprox<P: Point> {
+    e: P::R,
+    data: GeoMedianStepPrecisionErrorData
+}
+impl<P: Point> ChiaFrancoApprox<P> {
+    pub fn new(e: P::R) -> Self {
+        ChiaFrancoApprox {
+            e: e,
+            data: GeoMedianStepPrecisionErrorData::new()
+        }
+    }
+
+    pub fn get_epsilon(&self) -> P::R {
+        self.e
+    }
+
+    pub fn set_epsilon(&mut self, e: P::R) {
+        self.e = e;
+    }
+
+    pub fn get_err_ub(&self, tlen: usize, p: P::R) -> P::R {
+        P::R::from(tlen as f64) * P::R::from(2.0).pow(P::R::one()/p) * self.e.sqrt()
+    }
+}
+
+impl<P: Point> GeoMedianStep<P, LpSpace<P::R>> for ChiaFrancoApprox<P> {
+    type D = GeoMedianStepPrecisionErrorData;
+
     fn init(&mut self, _: &mut Node<P>, _: &LpSpace<P::R>) {
     }
 
-    fn step(&mut self, ynext: &mut P, y: &mut Node<P>, s: usize, geo: &LpSpace<P::R>) {
+    fn step(&mut self, ynext: &mut P, y: &mut Node<P>, _: usize, geo: &LpSpace<P::R>) {
         debug_assert!(P::R::from(2.0) < geo.p());
 
         #[inline]
@@ -62,8 +124,8 @@ impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFra
         }
 
         #[inline]
-        fn yk<P: Point, F: Fn(usize) -> P::R>(cf: &ChiaFranco<P, F>, y: &Node<P>, k: usize,
-                        lambda: P::R, ptmp: &mut P, s: usize, geo: &LpSpace<P::R>) -> P::R {
+        fn yk<P: Point>(cf: &ChiaFrancoApprox<P>, y: &Node<P>, k: usize,
+                        lambda: P::R, ptmp: &mut P, geo: &LpSpace<P::R>) -> P::R {
             let mut numerator = P::R::zero();
             let mut denominator = P::R::zero();
             let yk = y.p().coords()[k];
@@ -72,9 +134,9 @@ impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFra
                 let tk = t.p().coords()[k];
 
                 ptmp.clone_from(y.p());
-                h(ptmp.sub(t.p()), cf.get_epsilon(s));
+                h(ptmp.sub(t.p()), cf.get_epsilon());
                 let normterm = geo.norm(ptmp).pow(geo.p()-P::R::one());
-                let common = hk(yk-tk, cf.get_epsilon(s)).pow(geo.p() - P::R::from(2.0)) / normterm;
+                let common = hk(yk-tk, cf.get_epsilon()).pow(geo.p() - P::R::from(2.0)) / normterm;
 
                 denominator += common;
                 numerator += common * ((P::R::one() - lambda) * yk + lambda * tk);
@@ -91,7 +153,7 @@ impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFra
         let mut gamma = y.p().clone();
         let mut gamma_k = 0;
         gamma.scale_mut(&mut |_| {
-            let new = yk(self, y, gamma_k, one, &mut tmp, s, geo);
+            let new = yk(self, y, gamma_k, one, &mut tmp, geo);
             gamma_k += 1;
             new
         });
@@ -108,11 +170,11 @@ impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFra
                     let tk = t.p().coords()[k];
 
                     tmp.clone_from(y.p());
-                    h(tmp.sub(t.p()), self.get_epsilon(s));
+                    h(tmp.sub(t.p()), self.get_epsilon());
                     let normterm = geo.norm(&tmp).pow(p-one);
 
-                    psi0 += square * (hk(yk-tk, self.get_epsilon(s)) / normterm);
-                    psif += square * (hk(yk-tk+(two / (p-one))*(gk-yk), self.get_epsilon(s)) / normterm);
+                    psi0 += square * (hk(yk-tk, self.get_epsilon()) / normterm);
+                    psif += square * (hk(yk-tk+(two / (p-one))*(gk-yk), self.get_epsilon()) / normterm);
                 }
             }
             (psi0, psif)
@@ -125,7 +187,7 @@ impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFra
             let mut sumterm = P::R::zero();
             for t in y.neighbours() {
                 tmp.clone_from(y.p());
-                h(tmp.sub(t.p()), self.get_epsilon(s));
+                h(tmp.sub(t.p()), self.get_epsilon());
                 sumterm += geo.norm(&tmp).pow(one-p);
             }
             tmp.clone_from(&gamma);
@@ -136,10 +198,73 @@ impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFra
 
         let mut ynext_k = 0;
         ynext.scale_mut(&mut |_| {
-            let new = yk(self, y, ynext_k, lambda, &mut tmp, s, geo);
+            let new = yk(self, y, ynext_k, lambda, &mut tmp, geo);
             ynext_k += 1;
             new
         });
+    }
+
+    fn data(&self) -> &Self::D {
+        &self.data
+    }
+
+    fn print(&self, f: &mut fmt::Formatter, inde: u32) -> fmt::Result {
+        write!(f, "Rodríguez-chía and Valero-Franco's iteration with the \
+            hyberbolic approximation where epsilon={}", self.e)
+    }
+
+    fn print_data<W: Write>(&self, w: &mut W) -> io::Result<()> {
+        writeln!(w, "{}", self.data)
+    }
+}
+
+impl<P: Point> fmt::Display for ChiaFrancoApprox<P> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        self.print(f, 0)
+    }
+}
+
+
+
+#[derive(Debug)]
+pub struct ChiaFranco<P: Point, F> {
+    e: F,
+    step: ChiaFrancoApprox<P>,
+}
+impl<P: Point, F: Fn(usize) -> P::R> ChiaFranco<P, F> {
+    pub fn new(e: F) -> Self {
+        ChiaFranco {
+            step: ChiaFrancoApprox::new(e(1)),
+            e: e
+        }
+    }
+
+    pub fn get_epsilon(&self, s: usize) -> P::R {
+        (self.e)(s)
+    }
+
+    pub fn get_err_ub(&self, tlen: usize, p: P::R, s: usize) -> P::R {
+        P::R::from(tlen as f64) * P::R::from(2.0).pow(P::R::one()/p) * self.get_epsilon(s).sqrt()
+    }
+}
+
+impl<P: Point, F: Fn(usize) -> P::R> GeoMedianStep<P, LpSpace<P::R>> for ChiaFranco<P, F> {
+    type D = GeoMedianStepPrecisionErrorData;
+
+    fn init(&mut self, _: &mut Node<P>, _: &LpSpace<P::R>) {
+    }
+
+    fn step(&mut self, ynext: &mut P, y: &mut Node<P>, s: usize, geo: &LpSpace<P::R>) {
+        self.step.set_epsilon((self.e)(s));
+        self.step.step(ynext, y, s, geo);
+    }
+
+    fn data(&self) -> &Self::D {
+        &self.step.data()
+    }
+
+    fn print_data<W: Write>(&self, w: &mut W) -> io::Result<()> {
+        writeln!(w, "{}", self.data())
     }
 
     fn print(&self, f: &mut fmt::Formatter, inde: u32) -> fmt::Result {
@@ -154,10 +279,14 @@ impl<P: Point, F: Fn(usize) -> P::R> fmt::Display for ChiaFranco<P, F> {
 }
 
 #[derive(Debug)]
-pub struct BrimbergLove { }
+pub struct BrimbergLove {
+    data: GeoMedianStepFixedPointData
+}
 impl BrimbergLove {
     pub fn new() -> Self {
-        BrimbergLove { }
+        BrimbergLove {
+            data: GeoMedianStepFixedPointData::new()
+        }
     }
 }
 impl Default for BrimbergLove {
@@ -166,6 +295,8 @@ impl Default for BrimbergLove {
     }
 }
 impl<P: Point> GeoMedianStep<P, LpSpace<P::R>> for BrimbergLove {
+    type D = GeoMedianStepFixedPointData;
+
     fn init(&mut self, y: &mut Node<P>, geo: &LpSpace<P::R>) {
         if y.neighbours().any(|n| geo.dist(n.p(), y.p()) == P::R::zero()) {
             let cent = centroid(y);
@@ -184,6 +315,7 @@ impl<P: Point> GeoMedianStep<P, LpSpace<P::R>> for BrimbergLove {
         for t in y.neighbours() {
             let dpow = geo.dist(t.p(), y.p()).pow(P::R::one() - geo.p());
             if !dpow.is_number() {
+                self.data.fixedpoints += 1;
                 ynext.clone_from(t.p());
                 return;
             }
@@ -197,6 +329,7 @@ impl<P: Point> GeoMedianStep<P, LpSpace<P::R>> for BrimbergLove {
 
                 let a = (yk-tk).abs().pow(geo.p()-P::R::from(2.0)) * dpow;
                 if !a.is_number() {
+                    self.data.fixedpoints += 1;
                     *singsk = P::R::one();
                     *singskval = tk;
                     continue;
@@ -218,6 +351,14 @@ impl<P: Point> GeoMedianStep<P, LpSpace<P::R>> for BrimbergLove {
         }
     }
 
+    fn data(&self) -> &Self::D {
+        &self.data
+    }
+
+    fn print_data<W: Write>(&self, w: &mut W) -> io::Result<()> {
+        writeln!(w, "{}", self.data)
+    }
+
     fn print(&self, f: &mut fmt::Formatter, inde: u32) -> fmt::Result {
         write!(f, "Brimberg and Love's iteration")
     }
@@ -231,10 +372,14 @@ impl fmt::Display for BrimbergLove {
 }
 
 #[derive(Debug)]
-pub struct Weiszfeld { }
+pub struct Weiszfeld {
+    data: GeoMedianStepFixedPointData
+}
 impl Weiszfeld {
     pub fn new() -> Self {
-        Weiszfeld { }
+        Weiszfeld {
+            data: GeoMedianStepFixedPointData::new()
+        }
     }
 }
 impl Default for Weiszfeld {
@@ -243,6 +388,8 @@ impl Default for Weiszfeld {
     }
 }
 impl<P: Point> GeoMedianStep<P, EuclideanSpace> for Weiszfeld {
+    type D = GeoMedianStepFixedPointData;
+
     fn init(&mut self, y: &mut Node<P>, geo: &EuclideanSpace) {
         if y.neighbours().any(|n| geo.dist(n.p(), y.p()) == P::R::zero()) {
             let cent = centroid(y);
@@ -262,8 +409,17 @@ impl<P: Point> GeoMedianStep<P, EuclideanSpace> for Weiszfeld {
 
         x.div(div_sum);
         if !x.iter().any(|c| !c.is_number()) {
+            self.data.fixedpoints += 1;
             x.clone_from(node.p());
         }
+    }
+
+    fn data(&self) -> &Self::D {
+        &self.data
+    }
+
+    fn print_data<W: Write>(&self, w: &mut W) -> io::Result<()> {
+        writeln!(w, "{}", self.data)
     }
 
     fn print(&self, f: &mut fmt::Formatter, inde: u32) -> fmt::Result {
@@ -279,10 +435,14 @@ impl fmt::Display for Weiszfeld {
 }
 
 #[derive(Debug)]
-pub struct Ostresh { }
+pub struct Ostresh {
+    data: GeoMedianStepPrecisionErrorData
+}
 impl Ostresh {
     pub fn new() -> Self {
-        Ostresh { }
+        Ostresh {
+            data: GeoMedianStepPrecisionErrorData::new()
+        }
     }
 }
 impl Default for Ostresh {
@@ -291,6 +451,8 @@ impl Default for Ostresh {
     }
 }
 impl<P: Point> GeoMedianStep<P, EuclideanSpace> for Ostresh {
+    type D = GeoMedianStepPrecisionErrorData;
+
     fn init(&mut self, _: &mut Node<P>, _: &EuclideanSpace) {
     }
 
@@ -324,8 +486,17 @@ impl<P: Point> GeoMedianStep<P, EuclideanSpace> for Ostresh {
         x.clone_from(node.p());
         x.sub(g.div(s));
         if x.iter().any(|c| !c.is_number()) {
+            self.data.precisionerrors += 1;
             x.clone_from(node.p());
         }
+    }
+
+    fn data(&self) -> &Self::D {
+        &self.data
+    }
+
+    fn print_data<W: Write>(&self, w: &mut W) -> io::Result<()> {
+        writeln!(w, "{}", self.data)
     }
 
     fn print(&self, f: &mut fmt::Formatter, inde: u32) -> fmt::Result {
@@ -361,6 +532,10 @@ impl<P: Point, I> GeoMedianStepper<P, I> {
 
     pub fn default_with_step(step: I) -> Self {
         Self::new(P::R::from(0.00001), step)
+    }
+
+    pub fn step_alg(&mut self) -> &mut I {
+        &mut self.step
     }
 }
 
@@ -413,7 +588,8 @@ impl<P, M, I> GeoMedian<P, M> for GeoMedianStepper<P, I>
     }
 
     fn print_data<W: Write>(&self, w: &mut W) -> io::Result<()> {
-        writeln!(w, "{}", self.data())
+        try!(writeln!(w, "{}", self.data()));
+        self.step.print_data(w)
     }
 }
 
@@ -568,7 +744,8 @@ impl<P, S, E> GeoMedian<P, S> for GeoMedianEllipsoid<P, E>
     }
 
     fn print_data<W: Write>(&self, w: &mut W) -> io::Result<()> {
-        writeln!(w, "{}", self.data)
+        try!(writeln!(w, "{}", self.data));
+        self.eucl_median.print_data(w)
     }
 }
 
