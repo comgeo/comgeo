@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `GeoMedianIter` struct in crate `minkowski_steiner`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, GeoMedianIter">
+
+    <title>minkowski_steiner::algorithms::rmt::GeoMedianIter - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>minkowski_steiner</a>::<wbr><a href='../index.html'>algorithms</a>::<wbr><a href='index.html'>rmt</a></p><script>window.sidebarCurrent = {name: 'GeoMedianIter', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>minkowski_steiner</a>::<wbr><a href='../index.html'>algorithms</a>::<wbr><a href='index.html'>rmt</a>::<wbr><a class='struct' href=''>GeoMedianIter</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-1356' class='srclink' href='../../../src/minkowski_steiner/src/algorithms/rmt.rs.html#57-62' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct GeoMedianIter&lt;P:&nbsp;<a class='trait' href='../../../minkowski_steiner/traits/trait.Point.html' title='minkowski_steiner::traits::Point'>Point</a>,&nbsp;M:&nbsp;<a class='trait' href='../../../minkowski_steiner/traits/trait.MinkowskiSpace.html' title='minkowski_steiner::traits::MinkowskiSpace'>MinkowskiSpace</a>&lt;P&gt;,&nbsp;G:&nbsp;<a class='trait' href='../../../minkowski_steiner/traits/trait.GeoMedian.html' title='minkowski_steiner::traits::GeoMedian'>GeoMedian</a>&lt;P,&nbsp;M&gt;&gt; {
+    // some fields omitted
+}</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;P,&nbsp;M,&nbsp;G&gt; <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIter.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIter'>GeoMedianIter</a>&lt;P,&nbsp;M,&nbsp;G&gt; <span class='where'>where P: <a class='trait' href='../../../minkowski_steiner/traits/trait.Point.html' title='minkowski_steiner::traits::Point'>Point</a>, M: <a class='trait' href='../../../minkowski_steiner/traits/trait.MinkowskiSpace.html' title='minkowski_steiner::traits::MinkowskiSpace'>MinkowskiSpace</a>&lt;P&gt;, G: <a class='trait' href='../../../minkowski_steiner/traits/trait.GeoMedian.html' title='minkowski_steiner::traits::GeoMedian'>GeoMedian</a>&lt;P,&nbsp;M&gt;</span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1364' class='srclink' href='../../../src/minkowski_steiner/src/algorithms/rmt.rs.html#64-93' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(a: P::R, median: G) -&gt; <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIter.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIter'>GeoMedianIter</a>&lt;P,&nbsp;M,&nbsp;G&gt;</code></h4>
+<h4 id='method.default_with_geomedian' class='method'><code>fn <a href='#method.default_with_geomedian' class='fnname'>default_with_geomedian</a>(median: G) -&gt; <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIter.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIter'>GeoMedianIter</a>&lt;P,&nbsp;M,&nbsp;G&gt;</code></h4>
+<h4 id='method.tree_len_cutoff' class='method'><code>fn <a href='#method.tree_len_cutoff' class='fnname'>tree_len_cutoff</a>(self, a: P::R) -&gt; Self</code></h4>
+<h4 id='method.geo_median_alg' class='method'><code>fn <a href='#method.geo_median_alg' class='fnname'>geo_median_alg</a>(&amp;mut self) -&gt; &amp;mut G</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;P:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='../../../minkowski_steiner/traits/trait.Point.html' title='minkowski_steiner::traits::Point'>Point</a>,&nbsp;M:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='../../../minkowski_steiner/traits/trait.MinkowskiSpace.html' title='minkowski_steiner::traits::MinkowskiSpace'>MinkowskiSpace</a>&lt;P&gt;,&nbsp;G:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> + <a class='trait' href='../../../minkowski_steiner/traits/trait.GeoMedian.html' title='minkowski_steiner::traits::GeoMedian'>GeoMedian</a>&lt;P,&nbsp;M&gt;&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIter.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIter'>GeoMedianIter</a>&lt;P,&nbsp;M,&nbsp;G&gt; <span class='where'>where P::R: <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1344' class='srclink' href='../../../src/minkowski_steiner/src/algorithms/rmt.rs.html#56' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;P&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html' title='core::default::Default'>Default</a> for <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIter.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIter'>GeoMedianIter</a>&lt;P,&nbsp;<a class='struct' href='../../../minkowski_steiner/geo/spaces/struct.EuclideanSpace.html' title='minkowski_steiner::geo::spaces::EuclideanSpace'>EuclideanSpace</a>,&nbsp;<a class='struct' href='../../../minkowski_steiner/algorithms/geomedians/struct.Uteshev.html' title='minkowski_steiner::algorithms::geomedians::Uteshev'>Uteshev</a>&gt; <span class='where'>where P: <a class='trait' href='../../../minkowski_steiner/traits/trait.Point.html' title='minkowski_steiner::traits::Point'>Point</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1378' class='srclink' href='../../../src/minkowski_steiner/src/algorithms/rmt.rs.html#95-101' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default' class='fnname'>default</a>() -&gt; Self</code></h4>
+<div class='docblock'><p>Returns the &quot;default value&quot; for a type. <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;P,&nbsp;M,&nbsp;G&gt; <a class='trait' href='../../../minkowski_steiner/traits/trait.RMT.html' title='minkowski_steiner::traits::RMT'>RMT</a>&lt;P,&nbsp;M&gt; for <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIter.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIter'>GeoMedianIter</a>&lt;P,&nbsp;M,&nbsp;G&gt; <span class='where'>where P: <a class='trait' href='../../../minkowski_steiner/traits/trait.Point.html' title='minkowski_steiner::traits::Point'>Point</a>, M: <a class='trait' href='../../../minkowski_steiner/traits/trait.MinkowskiSpace.html' title='minkowski_steiner::traits::MinkowskiSpace'>MinkowskiSpace</a>&lt;P&gt;, G: <a class='trait' href='../../../minkowski_steiner/traits/trait.GeoMedian.html' title='minkowski_steiner::traits::GeoMedian'>GeoMedian</a>&lt;P,&nbsp;M&gt;</span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1381' class='srclink' href='../../../src/minkowski_steiner/src/algorithms/rmt.rs.html#103-156' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.D' class='type'><code>type <a href='../../../minkowski_steiner/traits/trait.RMT.html#associatedtype.D' class='type'>D</a> = <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIterData.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIterData'>GeoMedianIterData</a></code></h4>
+<h4 id='method.find' class='method'><code>fn <a href='../../../minkowski_steiner/traits/trait.RMT.html#tymethod.find' class='fnname'>find</a>(&amp;mut self, stree: &amp;mut <a class='struct' href='../../../minkowski_steiner/steinertree/struct.SteinerTree.html' title='minkowski_steiner::steinertree::SteinerTree'>SteinerTree</a>&lt;P&gt;, geo: &amp;M) -&gt; P::R</code></h4>
+<h4 id='method.data' class='method'><code>fn <a href='../../../minkowski_steiner/traits/trait.RMT.html#tymethod.data' class='fnname'>data</a>(&amp;self) -&gt; &amp;Self::D</code></h4>
+<h4 id='method.print' class='method'><code>fn <a href='../../../minkowski_steiner/traits/trait.RMT.html#tymethod.print' class='fnname'>print</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>, inde: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<h4 id='method.print_data' class='method'><code>fn <a href='../../../minkowski_steiner/traits/trait.RMT.html#tymethod.print_data' class='fnname'>print_data</a>&lt;W:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/std/io/trait.Write.html' title='std::io::Write'>Write</a>&gt;(&amp;self, w: &amp;mut W) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/std/io/error/type.Result.html' title='std::io::error::Result'>Result</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl&lt;P,&nbsp;M,&nbsp;G&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='struct' href='../../../minkowski_steiner/algorithms/rmt/struct.GeoMedianIter.html' title='minkowski_steiner::algorithms::rmt::GeoMedianIter'>GeoMedianIter</a>&lt;P,&nbsp;M,&nbsp;G&gt; <span class='where'>where P: <a class='trait' href='../../../minkowski_steiner/traits/trait.Point.html' title='minkowski_steiner::traits::Point'>Point</a>, M: <a class='trait' href='../../../minkowski_steiner/traits/trait.MinkowskiSpace.html' title='minkowski_steiner::traits::MinkowskiSpace'>MinkowskiSpace</a>&lt;P&gt;, G: <a class='trait' href='../../../minkowski_steiner/traits/trait.GeoMedian.html' title='minkowski_steiner::traits::GeoMedian'>GeoMedian</a>&lt;P,&nbsp;M&gt;</span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-1422' class='srclink' href='../../../src/minkowski_steiner/src/algorithms/rmt.rs.html#158-164' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "minkowski_steiner";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

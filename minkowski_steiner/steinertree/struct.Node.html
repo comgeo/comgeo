@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Node` struct in crate `minkowski_steiner`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Node">
+
+    <title>minkowski_steiner::steinertree::Node - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>minkowski_steiner</a>::<wbr><a href='index.html'>steinertree</a></p><script>window.sidebarCurrent = {name: 'Node', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>minkowski_steiner</a>::<wbr><a href='index.html'>steinertree</a>::<wbr><a class='struct' href=''>Node</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-2922' class='srclink' href='../../src/minkowski_steiner/src/steinertree.rs.html#13-18' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Node&lt;P&gt; {
+    // some fields omitted
+}</pre><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;P:&nbsp;<a class='trait' href='../../minkowski_steiner/traits/trait.Point.html' title='minkowski_steiner::traits::Point'>Point</a>&gt; <a class='struct' href='../../minkowski_steiner/steinertree/struct.Node.html' title='minkowski_steiner::steinertree::Node'>Node</a>&lt;P&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3242' class='srclink' href='../../src/minkowski_steiner/src/steinertree.rs.html#445-455' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.init' class='method'><code>fn <a href='#method.init' class='fnname'>init</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><span class='in-band'><code>impl&lt;P&gt; <a class='struct' href='../../minkowski_steiner/steinertree/struct.Node.html' title='minkowski_steiner::steinertree::Node'>Node</a>&lt;P&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3249' class='srclink' href='../../src/minkowski_steiner/src/steinertree.rs.html#457-498' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.p' class='method'><code>fn <a href='#method.p' class='fnname'>p</a>(&amp;self) -&gt; &amp;P</code></h4>
+<h4 id='method.p_mut' class='method'><code>fn <a href='#method.p_mut' class='fnname'>p_mut</a>(&amp;mut self) -&gt; &amp;mut P</code></h4>
+<h4 id='method.id' class='method'><code>fn <a href='#method.id' class='fnname'>id</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
+<h4 id='method.is_terminal' class='method'><code>fn <a href='#method.is_terminal' class='fnname'>is_terminal</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.edges' class='method'><code>fn <a href='#method.edges' class='fnname'>edges</a>(&amp;self) -&gt; <a class='struct' href='../../minkowski_steiner/steinertree/struct.IncidentEdges.html' title='minkowski_steiner::steinertree::IncidentEdges'>IncidentEdges</a>&lt;P&gt;</code></h4>
+<h4 id='method.neighbours' class='method'><code>fn <a href='#method.neighbours' class='fnname'>neighbours</a>(&amp;self) -&gt; <a class='struct' href='../../minkowski_steiner/steinertree/struct.Neighbours.html' title='minkowski_steiner::steinertree::Neighbours'>Neighbours</a>&lt;P&gt;</code></h4>
+<h4 id='method.neighbours_data_mut' class='method'><code>fn <a href='#method.neighbours_data_mut' class='fnname'>neighbours_data_mut</a>(&amp;mut self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a>&amp;mut P, <a class='struct' href='../../minkowski_steiner/steinertree/struct.NeighboursData.html' title='minkowski_steiner::steinertree::NeighboursData'>NeighboursData</a>&lt;P&gt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></code></h4>
+<h4 id='method.neighbours_mut' class='method'><code>fn <a href='#method.neighbours_mut' class='fnname'>neighbours_mut</a>(&amp;mut self) -&gt; <a class='struct' href='../../minkowski_steiner/steinertree/struct.NeighboursMut.html' title='minkowski_steiner::steinertree::NeighboursMut'>NeighboursMut</a>&lt;P&gt;</code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl&lt;P:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../minkowski_steiner/steinertree/struct.Node.html' title='minkowski_steiner::steinertree::Node'>Node</a>&lt;P&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-2912' class='srclink' href='../../src/minkowski_steiner/src/steinertree.rs.html#12' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl&lt;P:&nbsp;<a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a>&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html' title='core::fmt::Display'>Display</a> for <a class='struct' href='../../minkowski_steiner/steinertree/struct.Node.html' title='minkowski_steiner::steinertree::Node'>Node</a>&lt;P&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a id='src-3267' class='srclink' href='../../src/minkowski_steiner/src/steinertree.rs.html#500-507' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "minkowski_steiner";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

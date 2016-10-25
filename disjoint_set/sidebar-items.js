@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DisjointSet","Tarjan's Union-Find Data structure"]]});

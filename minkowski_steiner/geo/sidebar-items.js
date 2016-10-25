@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["hyperplanes",""],["points",""],["spaces",""]]});

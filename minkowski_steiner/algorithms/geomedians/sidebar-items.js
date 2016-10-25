@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BrimbergLove",""],["ChiaFranco",""],["ChiaFrancoApprox",""],["GeoMedianEllipsoid",""],["GeoMedianEllipsoidData",""],["GeoMedianStepFixedPointData",""],["GeoMedianStepPrecisionErrorData",""],["GeoMedianStepper",""],["GeoMedianStepperData",""],["Ostresh",""],["Uteshev",""],["UteshevData",""],["Weiszfeld",""]]});

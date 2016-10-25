@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Edge",""],["Edges",""],["IncidentEdges",""],["Neighbours",""],["NeighboursData",""],["NeighboursMut",""],["Node",""],["NodePairs",""],["SteinerPoints",""],["SteinerTree",""],["Terminals",""]]});
