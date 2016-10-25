@@ -21,9 +21,14 @@ script:
   travis-cargo --only stable doc
 after_success:
 - travis-cargo --only stable doc-upload
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis-cargo coveralls --no-sudo --verify; fi
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./kcov/build/src/kcov --verify --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/.cargo target/kcov target/debug/minkowski_steiner-*; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis-cargo coveralls --no-sudo --verify;
+  fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./kcov/build/src/kcov --verify --coveralls-id=$TRAVIS_JOB_ID
+  --exclude-pattern=/.cargo target/kcov target/debug/minkowski_steiner-*; fi
 env:
   global:
   - TRAVIS_CARGO_NIGHTLY_FEATURE=nightly
   - secure: dLVSL33OjAxA7T4s95oCmXj0pxRpsAkOJrAiSgC6y0c9FpVG490N6124BZEoHOiWz0AIl8L4WAG+r6+vA5xMsKGOciC+i3WoS/WC2nnJitgx6J63Qs+bpBjU+KsQho7rEYB4S+lp/zabf26coKc2V3/GX+xDikMhJU6lUnSkmKEEg+yhIo82bUq7SXcrsXP5hECCYYH+PLKbzD7aLrN3mv8+Nx2GlnRg1gZX9WogVvAeZWhwq06xs04gHa/XMwsOeCec+NX1PEHoRPsNGcaokccf9F6unL1tzzSWvBNrdVsqa99hnNs9yZqaQ4PvfUEposDJc3jwa74hMZ3LJUZNLDKf5pT05Dhb940FrQZ+LLyeBR8q01gWVVGIJ9o6TF9UwepFD5NtnKQaMKald0+9WSsgs40tMAD+0+XTjBQ4Cszi+CERlnsSf1jwDtYI95MfTbpHUQRY1rRU4OOEZlyyui5NuoZW+kki0KzmmJUAQC8xaSxJNkZ+UxHYg/PCdC0e3XH0fXn/SlkVVMdpu0fPqIaVCkO79QRi5wRzokohxDfcVM9G0hmMvhMLFOLJ8ksWhwVa/KfQ54aEVuI4+ZCemHj8WAPrpGRBaDKHyW2+JmAWlTGGhl9diBx31z1SaaNe8UVbEboSdkQsggIPmKAC3jcn1V7ExrIoT7PrnPxw+04=
+notifications:
+  slack:
+    secure: 00U9/fShh1Zgr5FzlwWWlsAUkfWPjCPpxVxgsaPb8zYv2O5DN7oTdbpXtL/mYhIEQUREWiFFv60biAcL0VbltQ/njr8A+9B6sbDCBLSgOjbsqQ6s2UeJ+dU0OBZ8M22OA+fvPi+cuxhY14dNSLwg32mkEKN7t9DOv/4qCgKvKxBWBQXE499xMiQ7hZlWKu3aCJFRRPUjjVMXOe9G/CCaBU58YzsB2js6KGqjtPogAlXuCXicVEHeOf3oEn+ocWe1riileXvnq/8FEJdU32Nnazsqs1OyEclEXSMDipY4IjfGLJgXWOUrfIAb3ZZhcn3Iq4BKXzAMU1Wpo4orol4pH5+3bkPBVSieCU4gAQa71MbzCpc3NzDAijr4O2mDtFatkVoDPHiXRDaeMYqWpJosNa6EYkyaiRmEJtoWf0sAzs5oV6y9T0Sgk27sM1gKhEzHlO1WVy7U6TzS/W+FdO/HcLMm25fdNBfIhkk38Wa3x3w57i+DHqEF1NVwKHhvmLIKu3rOAPAnx1ztrsCckTXtAyAaktLf3oP8NOxyp1YfxbedbRzKY1GCTve9zKyASlWcM4ThUREj6hfFh5kfjZceo0H/rdwbVfjW9ezQKeJBU7axpZ+cxlhd14I85FOBU5bswns7CDT73i7Ed6VY1ZhbwkJvvdHsmOPuzeqApmJM8QQ=
