@@ -1,7 +1,27 @@
 [package]
-name = "minkowski-steiner"
+name = "comgeo"
 version = "0.1.0"
-authors = ["Jacob Grevald <jacob@jacobgrevald.dk>"]
+authors = ["mencre <mencre@jacobgrevald.dk>"]
+
+# (not markdown).
+description = "Computational geometry"
+
+documentation = "https://comgeo.github.io/comgeo"
+homepage = "https://github.com/comgeo/comgeo"
+repository = "https://github.com/comgeo/comgeo"
+
+# (relative to this `Cargo.toml`)
+readme = "README.md"
+
+# This is a small list of keywords used to categorize and search for this
+# package.
+keywords = ["geometry", "cg", "algorithms"]
+
+# This is a string description of the license for this package. Currently
+# crates.io will validate the license provided against a whitelist of known
+# license identifiers from http://spdx.org/licenses/. Multiple licenses can be
+# separated with a `/`.
+license = "CC0-1.0/MIT"
 
 [dependencies]
 disjoint-set = "0.0.2"
