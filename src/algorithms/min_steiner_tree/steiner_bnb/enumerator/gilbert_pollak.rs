@@ -1,4 +1,3 @@
-use traits::*;
 use steinertree::*;
 use algorithms::mst::*;
 

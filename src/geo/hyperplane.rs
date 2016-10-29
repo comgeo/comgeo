@@ -1,6 +1,38 @@
-use traits::*;
-
 use std::slice::Iter;
+
+
+pub trait Hyperplane<P: Point> {
+    fn iter(&self) -> Iter<P::R>;
+    fn comps(&self) -> &[P::R];
+    fn comps_mut(&mut self) -> &mut [P::R];
+
+    fn translate(&mut self, p: &P) {
+        let d = self.iter().zip(p.iter())
+            .fold(P::R::zero(), |sum, (&a, &x)|
+                sum + a*x
+            );
+
+        for c in self.comps_mut().iter_mut() {
+            *c = (*c)/d
+        }
+    }
+
+    fn eucl_dist(&self, p: &P) -> P::R {
+        let (dotm1, sqsum) = self.iter().zip(p.iter())
+            .fold((-P::R::one(), P::R::zero()), |(dotm1, sqsum), (&a, &c)|
+                (dotm1 + a*c, sqsum + a*a));
+
+        dotm1.abs() / sqsum.sqrt()
+    }
+
+    fn normal<'a>(&self, p: &'a mut P) -> &'a mut P {
+        for i in 0..p.coords().len() {
+            p.coords_mut()[i] = self.comps()[i];
+        }
+        let norm = EuclideanSpace::new().norm(p);
+        p.div(norm)
+    }
+}
 
 #[derive(Debug)]
 pub struct HyperplaneNd<R> {

@@ -1,4 +1,3 @@
-use traits::*;
 use steinertree::{SteinerTree};
 
 extern crate disjoint_set;

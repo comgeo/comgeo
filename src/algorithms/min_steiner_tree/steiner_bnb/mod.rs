@@ -1,6 +1,8 @@
-use traits::*;
-use geo::spaces::{EuclideanSpace};
-use algorithms::rmt::{GeoMedianIter};
+pub mod prune_test;
+pub mod enumerator;
+
+use geo::space::{Euclidean};
+use rmt::{GeoMedianIter};
 use upperbounds::{LineTree};
 use enumerator::*;
 use steinertree::{SteinerTree};

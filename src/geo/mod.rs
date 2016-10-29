@@ -1,10 +1,4 @@
-pub mod points;
+pub mod point;
 
-pub mod hyperplanes;
-mod minkowskispaces;
-mod hyperellipsoidspaces;
-
-pub mod spaces {
-    pub use super::minkowskispaces::*;
-    pub use super::hyperellipsoidspaces::*;
-}
+pub mod hyperplane;
+pub mod space;

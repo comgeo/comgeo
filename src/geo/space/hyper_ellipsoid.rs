@@ -1,9 +1,28 @@
-use traits::{Point, Real, Hyperplane, HyperEllipsoidSpace, MinkowskiSpace};
-use geo::points::{Point2d, Point3d, PointNd};
-use geo::hyperplanes::{Line, Plane, HyperplaneNd};
+use geo::point::{Point2d, Point3d, PointNd};
+use geo::hyperplane::{Line, Plane, HyperplaneNd};
 
 use std::slice::Iter;
 use std::fmt;
+
+
+pub trait HyperEllipsoid<P: Point> : MinkowskiSpace<P> {
+    type H: Hyperplane<P>;
+
+    fn comps(&self) -> &[P::R];
+    fn tangent(&self, o: &P, p: &P) -> Self::H;
+
+    fn bd_intersect<'a>(&self, p: &'a mut P) -> &'a mut P {
+        let norm = self.norm(p);
+        p.div(norm)
+    }
+
+    fn inner_product(&self, p1: &P, p2: &P) -> P::R {
+        self.comps().iter().zip(p1.iter().zip(p2.iter()))
+            .fold(P::R::zero(), |sum, (&a, (&x, &y))|
+                sum + (a*a).recip() * x * y
+            )
+    }
+}
 
 fn ellipsoid_norm<R: Real>(e: Iter<R>, p: Iter<R>) -> R {
     e.zip(p)

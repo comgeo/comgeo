@@ -1,4 +1,6 @@
-pub mod rmt;
-pub mod steinerbnb;
+pub mod min_steiner_tree;
 pub mod mst;
-pub mod geomedians;
+pub mod geo_median;
+
+
+

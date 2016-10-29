@@ -5,16 +5,32 @@
    unstable_features,
    unused_import_braces, unused_qualifications)]
 
-pub mod traits;
+
 pub mod geo;
 pub mod algorithms;
-pub mod upperbounds;
-pub mod enumerator;
-pub mod prunetests;
-pub mod steinertree;
 
-use traits::*;
-use geo::points::*;
+pub trait Real : Neg<Output=Self> + Add<Output=Self>
+               + Sub<Output=Self> + Mul<Output=Self>
+               + Div<Output=Self> + Rem<Output=Self>
+               + AddAssign + SubAssign + MulAssign + DivAssign
+               + From<f64> + Into<f64>
+               + Copy + PartialEq + PartialOrd
+               + fmt::Display + fmt::Debug {
+
+    fn abs(self) -> Self;
+    fn recip(self) -> Self;
+    fn zero() -> Self;
+    fn one() -> Self;
+    fn max(self, o: Self) -> Self;
+    fn min(self, o: Self) -> Self;
+    fn sqrt(self) -> Self;
+    fn pow(self, Self) -> Self;
+    fn is_number(&self) -> bool;
+}
+
+
+
+
 
 impl Real for f64 {
     fn abs(self) -> Self {

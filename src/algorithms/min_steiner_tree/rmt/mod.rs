@@ -3,10 +3,26 @@ use std::time::{Duration, Instant};
 use std::fmt;
 use std::io::{self, BufWriter, Write};
 
-use traits::*;
 use geo::spaces::{EuclideanSpace};
 use steinertree::{SteinerTree};
 use algorithms::geomedians::*;
+
+
+
+pub trait RMT<P: Point, M: MinkowskiSpace<P>>: fmt::Display {
+    type D: RmtData;
+
+    fn find(&mut self, tree: &mut SteinerTree<P>, geo: &M) -> P::R;
+    fn data(&self) -> &Self::D;
+    fn print(&self, &mut fmt::Formatter, u32) -> fmt::Result;
+    fn print_data<W: Write>(&self, &mut W) -> io::Result<()>;
+}
+
+
+pub trait RmtData: fmt::Display + Clone  {
+    fn nodes(&self) -> usize;
+    fn time(&self) -> &Duration;
+}
 
 #[derive(Debug, Clone)]
 pub struct GeoMedianIterData {

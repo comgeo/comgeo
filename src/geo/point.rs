@@ -1,7 +1,95 @@
 use std::fmt;
 use std::slice::{IterMut, Iter};
 
-use traits::*;
+pub trait PointSorter: fmt::Display {
+    fn sort<P, M>(&mut self, &mut[P], &M)
+        where P: Point, M: MinkowskiSpace<P>;
+    fn print(&self, &mut fmt::Formatter, u32) -> fmt::Result;
+}
+
+pub trait Point : PartialEq + Clone + fmt::Display + fmt::Debug {
+    type R : Real;
+
+    fn dim(&self) -> usize;
+    fn iter(&self) -> Iter<Self::R>;
+    fn iter_mut(&mut self) -> IterMut<Self::R>;
+    fn coords(&self) -> &[Self::R];
+    fn coords_mut(&mut self) -> &mut [Self::R];
+    fn id(&self) -> usize;
+    fn set_id(&mut self, usize);
+
+    fn dot(&self, o: &Self) -> Self::R {
+        debug_assert_eq!(self.dim(), o.dim());
+        self.iter().zip(o.iter()).fold(Self::R::zero(), |dot, (&c, &oc)| dot + c*oc)
+    }
+
+    fn is_zero(&self) -> bool {
+        for &c in self.coords() {
+            if c != Self::R::zero() {
+                return false;
+            }
+        }
+        true
+    }
+
+    fn modify<'a, F>(&mut self, p: &'a Self, f: &F) -> &mut Self
+        where F: Fn(Self::R, Self::R) -> Self::R {
+
+        debug_assert_eq!(self.dim(), p.dim());
+        for (c, &oc) in self.coords_mut().iter_mut().zip(p.coords().iter()) {
+            *c = f(*c, oc)
+        }
+        self
+    }
+
+    fn scale<'a, F>(&mut self, f: &F) -> &mut Self
+        where F: Fn(Self::R) -> Self::R {
+
+        for c in self.coords_mut().iter_mut() {
+            *c = f(*c)
+        }
+        self
+    }
+
+    fn scale_mut<'a, F>(&mut self, f: &mut F) -> &mut Self
+        where F: FnMut(Self::R) -> Self::R {
+
+        for c in self.coords_mut().iter_mut() {
+            *c = (*f)(*c)
+        }
+        self
+    }
+
+    fn add<'a>(&mut self, rhs: &'a Self) -> &mut Self {
+        self.modify(rhs, &|c, oc| c + oc)
+    }
+
+    fn sub<'a>(&mut self, rhs: &'a Self) -> &mut Self {
+        self.modify(rhs, &|c, oc| c - oc)
+    }
+
+    fn mul(&mut self, rhs: Self::R) -> &mut Self {
+        self.scale(&|c| c * rhs)
+    }
+
+    fn div(&mut self, rhs: Self::R) -> &mut Self {
+        self.scale(&|c| c / rhs)
+    }
+
+    fn unit<M: MinkowskiSpace<Self>>(&mut self, geo: &M) -> &mut Self {
+        let norm = geo.norm(self);
+        self.div(norm)
+    }
+
+    fn neg(&mut self) -> &mut Self {
+        self.scale(&|c| -c)
+    }
+
+    fn copy(&mut self, o: &Self) -> &mut Self {
+        self.modify(o, &|_, oc| oc)
+    }
+}
+
 
 #[derive(Debug)]
 pub struct PointNd<N> {
